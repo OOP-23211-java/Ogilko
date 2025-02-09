@@ -13,7 +13,7 @@ public class CsvWriter {
     public CsvWriter() {
         try {
             final Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter path to output file: ");
+            System.out.print("Enter path to output file: ");
             String filePath = scanner.nextLine();
             writer = new BufferedWriter(new FileWriter(filePath));
         } catch (IOException e) {
@@ -31,9 +31,9 @@ public class CsvWriter {
         try {
             for (Map.Entry<String, Integer> entry : entries) {
                 String word = entry.getKey();
-                int freq = entry.getValue();
+                float freq = entry.getValue();
 
-                String lineCSV = word + "\t" + freq + "\t" + freq / numWords;
+                String lineCSV = word + "\t" + freq + "\t" + freq / numWords + "%";
                 writer.write(lineCSV);
                 writer.newLine();
             }
