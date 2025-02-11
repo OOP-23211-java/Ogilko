@@ -1,4 +1,4 @@
-import org.example.SorterMapByVal;
+import NSU.ParserCSV.SorterMapByVal;
 
 import org.junit.jupiter.api.Test;
 import java.util.*;

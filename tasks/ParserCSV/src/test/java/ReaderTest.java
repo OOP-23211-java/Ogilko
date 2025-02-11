@@ -1,4 +1,4 @@
-import org.example.Reader;
+import NSU.ParserCSV.Reader;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

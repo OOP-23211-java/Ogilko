@@ -1,4 +1,4 @@
-package org.example;
+package NSU.ParserCSV;
 
 import java.util.Map;
 

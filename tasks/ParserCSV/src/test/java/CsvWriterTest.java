@@ -1,4 +1,4 @@
-import org.example.CsvWriter;
+import NSU.ParserCSV.CsvWriter;
 
 import org.junit.jupiter.api.Test;
 import java.io.*;
