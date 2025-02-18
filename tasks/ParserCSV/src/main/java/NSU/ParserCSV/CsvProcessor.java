@@ -18,6 +18,7 @@ public class CsvProcessor {
         reader.close();
 
         CsvWriter writer = new CsvWriter(stream.getOutputFile());
+        stream.close();
         int numWords = counter.getFrequencyText();
         SorterMapByVal sorterMapByVal = new SorterMapByVal();
 
