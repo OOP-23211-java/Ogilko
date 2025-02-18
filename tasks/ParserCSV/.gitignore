@@ -1,14 +1,12 @@
 .gradle
-gradle
 build
+gradle
+src/test/resources/
 build.gradle.kts
 gradlew
 gradlew.bat
 settings.gradle.kts
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-test/resources/
+
 
 ### IntelliJ IDEA ###
 .idea
@@ -16,8 +14,6 @@ test/resources/
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
 ### Eclipse ###
 .apt_generated
@@ -28,8 +24,6 @@ out/
 .springBeans
 .sts4-cache
 bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
 ### NetBeans ###
 /nbproject/private/

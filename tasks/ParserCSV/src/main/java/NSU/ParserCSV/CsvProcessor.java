@@ -5,24 +5,40 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class CsvProcessor {
-    public void ParserCSV() {
-        WordFrequencyCounter counter = new WordFrequencyCounter();
-        Map<String, Integer> wordFrequencies = new HashMap<>();
-        GetterStream stream = new GetterStream();
-        Reader reader = new Reader(stream.getInputFile());
+    private GetterStream filePaths;
+    private WordFrequencyCounter wordCounter;
+    private Map<String, Integer> wordFrequencies;
 
-        for (String line; (line = reader.readLine()) != null; ) {
-            String[] words = line.split(" ");
-            counter.CalculateFrequencyWords(wordFrequencies, words);
+    public void processCsv() {
+        wordCounter = new WordFrequencyCounter();
+        filePaths = new GetterStream();
+
+        processingData();
+
+        outputData();
+    }
+
+    private void processingData() {
+        wordFrequencies = new HashMap<>();
+        Reader fileReader = new Reader(filePaths.getInputFile());
+
+        for (String currentLine; (currentLine = fileReader.readLine()) != null; ) {
+            String[] wordsInLine = currentLine.split(" ");
+            wordCounter.CalculateFrequencyWords(wordFrequencies, wordsInLine);
         }
-        reader.close();
 
-        CsvWriter writer = new CsvWriter(stream.getOutputFile());
-        stream.close();
-        int numWords = counter.getFrequencyText();
+        fileReader.close();
+    }
+
+    private void outputData() {
+        CsvWriter csvWriter = new CsvWriter(filePaths.getOutputFile());
+        filePaths.close();
+
         SorterMapByVal sorterMapByVal = new SorterMapByVal();
+        List<Map.Entry<String, Integer>> sortedWordFrequencies = sorterMapByVal.SortByFrequency(wordFrequencies);
 
-        List<Map.Entry<String, Integer>> entries = sorterMapByVal.SortByFrequency(wordFrequencies);
-        writer.Write(entries, numWords);
+        int numWords = wordCounter.getFrequencyText();
+
+        csvWriter.Write(sortedWordFrequencies, numWords);
     }
 }
