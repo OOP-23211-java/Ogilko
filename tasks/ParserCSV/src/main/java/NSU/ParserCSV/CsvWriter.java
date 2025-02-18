@@ -4,22 +4,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.List;
 
 public class CsvWriter {
     BufferedWriter writer;
 
-    public CsvWriter() {
-        try {
-            final Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter path to output file: ");
-            String filePath = scanner.nextLine();
-            writer = new BufferedWriter(new FileWriter(filePath));
-        } catch (IOException e) {
-            System.err.println("Ошибка при чтении файла: " + e.getMessage());
-            writer = null;
-        }
+    public CsvWriter(FileWriter fileWriter) {
+        writer = new BufferedWriter(fileWriter);
     }
 
     public void Write(List<Map.Entry<String, Integer>> entries, int numWords) {
@@ -33,7 +24,7 @@ public class CsvWriter {
                 String word = entry.getKey();
                 float freq = entry.getValue();
 
-                String lineCSV = word + "\t" + freq + "\t" + freq / numWords + "%";
+                String lineCSV = word + "\t" + freq + "\t" + freq * 100 / numWords + "%";
                 writer.write(lineCSV);
                 writer.newLine();
             }
