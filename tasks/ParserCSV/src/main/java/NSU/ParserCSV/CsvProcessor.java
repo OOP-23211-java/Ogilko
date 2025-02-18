@@ -23,7 +23,7 @@ public class CsvProcessor {
         Reader fileReader = new Reader(filePaths.getInputFile());
 
         for (String currentLine; (currentLine = fileReader.readLine()) != null; ) {
-            String[] wordsInLine = currentLine.split(" ");
+            String[] wordsInLine = currentLine.split("\\s+");
             wordCounter.CalculateFrequencyWords(wordFrequencies, wordsInLine);
         }
 
