@@ -13,19 +13,16 @@ public class CsvWriter implements ICsvWriter {
         writer = new BufferedWriter(fileWriter);
     }
 
+    /**
+     * Записывает список в формате CSV
+     * @param entries список мап
+     * @param numWords количество слов во всём файле
+     */
     @Override
     public void Write(List<Map.Entry<String, Integer>> entries, int numWords) {
-        if (writer == null) {
-            System.err.println("Не удалось создать файл для записи. Данные не будут сохранены.");
-            return;
-        }
-
         try {
             for (Map.Entry<String, Integer> entry : entries) {
-                String word = entry.getKey();
-                float freq = entry.getValue();
-
-                String lineCSV = word + "\t" + freq + "\t" + freq * 100 / numWords + "%";
+                String lineCSV = CSVFormatter(entry, numWords);
                 writer.write(lineCSV);
                 writer.newLine();
             }
@@ -38,5 +35,14 @@ public class CsvWriter implements ICsvWriter {
                 System.err.println("Ошибка при закрытии файла: " + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Форматирует слово с частотой в CSV
+     */
+    private String CSVFormatter(Map.Entry<String, Integer> entry, Integer numWords) {
+        String word = entry.getKey();
+        float freq = entry.getValue();
+        return word + "\t" + freq + "\t" + freq * 100 / numWords + "%";
     }
 }

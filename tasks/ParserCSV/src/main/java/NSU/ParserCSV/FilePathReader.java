@@ -30,8 +30,8 @@ public class FilePathReader implements IFilePathReader {
      */
     public FilePathReader() {
         Scanner consoleScanner = new Scanner(System.in);
-        String inputPath = null;
-        String outputPath = null;
+        String inputPath;
+        String outputPath;
 
         while (true) {
             try {

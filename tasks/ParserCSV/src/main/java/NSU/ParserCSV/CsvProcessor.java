@@ -17,19 +17,24 @@ public class CsvProcessor {
         this.filePathReader = filePathReader;
         this.wordCounter = wordCounter;
         this.csvWriter = csvWriter;
-        this.sorter = sorter;
+        this.sorter = sorter;this.wordFrequencies = new HashMap<>();
     }
 
     public void processCsv() {
         processingData();
-        outputData();
+        writeCsv();
     }
 
+    /**
+     * Построчно читает текст из файла,
+     * разбивает его на слова и
+     * подсчитывает частоту каждого слова
+     */
     private void processingData() {
-        wordFrequencies = new HashMap<>();
         try (Reader fileReader = new Reader(filePathReader.getFileReader())) {
-            for (String currentLine; (currentLine = fileReader.readLine()) != null; ) {
-                String[] wordsInLine = currentLine.split("\\s+");
+            String currentLine;
+            while ((currentLine = fileReader.readLine()) != null) {
+                String[] wordsInLine = currentLine.split("[^a-zA-Z0-9]+");
                 wordCounter.CalculateFrequencyWords(wordFrequencies, wordsInLine);
             }
         } catch (IOException e) {
@@ -37,7 +42,12 @@ public class CsvProcessor {
         }
     }
 
-    private void outputData() {
+    /**
+     * Сортирует слова в порядке убывания частоты,
+     * считает количество всех слов,
+     * записывает полученные данные в формате CSV.
+     */
+    private void writeCsv() {
         try {
             List<Map.Entry<String, Integer>> sortedWordFrequencies = sorter.SortByFrequency(wordFrequencies);
             int numWords = wordCounter.getFrequencyText();
