@@ -5,7 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-public class SorterMapByVal {
+public class SorterMapByVal implements  ISorterMapByVal {
+    @Override
     public List<Map.Entry<String, Integer>> SortByFrequency(Map<String, Integer> wordFrequencies) {
         Comparator<Map.Entry<String, Integer>> comparator = (entry1, entry2) -> entry2.getValue() - entry1.getValue();
 

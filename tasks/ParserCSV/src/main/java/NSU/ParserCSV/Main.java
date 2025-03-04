@@ -2,7 +2,8 @@ package NSU.ParserCSV;
 
 public class Main {
     public static void main(String[] args) {
-        CsvProcessor parser = new CsvProcessor();
+        Container container = new Container(args);
+        CsvProcessor parser = container.getCsvProcessor();
         parser.processCsv();
     }
 }

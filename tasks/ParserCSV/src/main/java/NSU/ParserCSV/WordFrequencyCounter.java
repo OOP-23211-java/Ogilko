@@ -2,9 +2,10 @@ package NSU.ParserCSV;
 
 import java.util.Map;
 
-public class WordFrequencyCounter {
+public class WordFrequencyCounter implements IWordFrequencyCounter {
     private int frequencyText = 0;
 
+    @Override
     public void CalculateFrequencyWords(Map<String, Integer> frequency, String[] words) {
         for (String word : words) {
             ++frequencyText;
@@ -12,6 +13,7 @@ public class WordFrequencyCounter {
         }
     }
 
+    @Override
     public int getFrequencyText() {
         return frequencyText;
     }

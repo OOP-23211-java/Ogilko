@@ -3,8 +3,9 @@ package NSU.ParserCSV;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Closeable;
 
-public class Reader {
+public class Reader implements Closeable  {
     private final BufferedReader reader;
 
     public Reader(FileReader fileReader) {
@@ -20,11 +21,13 @@ public class Reader {
         }
     }
 
-    public void close() {
+    @Override
+    public void close() throws IOException {
         try {
             reader.close();
         } catch (IOException e) {
             System.err.println("Ошибка при закрытии файла: " + e.getMessage());
+            throw e;
         }
     }
 }

@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.List;
 
-public class CsvWriter {
+public class CsvWriter implements ICsvWriter {
     BufferedWriter writer;
 
     public CsvWriter(FileWriter fileWriter) {
         writer = new BufferedWriter(fileWriter);
     }
 
+    @Override
     public void Write(List<Map.Entry<String, Integer>> entries, int numWords) {
         if (writer == null) {
             System.err.println("Не удалось создать файл для записи. Данные не будут сохранены.");
