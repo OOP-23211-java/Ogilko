@@ -1,18 +1,25 @@
-package client;
+package com.chat.client;
 
 import jakarta.websocket.*;
 import java.io.IOException;
 
+/**
+ * Клиент
+ */
 @ClientEndpoint
 public class ChatClientEndpoint {
     private Session session;
 
+    /**
+     * Под
+     * @param session сессия с сервером
+     */
     @OnOpen
     public void onOpen(Session session) {
 
         this.session = session;
         try {
-            session.getBasicRemote().sendText("Hello from client!");
+            session.getBasicRemote().sendText("Всем приветики)\nЧем промышляете?");
         } catch (IOException e) {
             System.err.println("Error sending initial message: " + e.getMessage());
             e.printStackTrace();
@@ -22,7 +29,7 @@ public class ChatClientEndpoint {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("Received: " + message);
+        System.out.println(message);
     }
 
     @OnClose
@@ -42,7 +49,6 @@ public class ChatClientEndpoint {
     public void sendMessage(Session session, String message) throws IOException {
         try {
             session.getBasicRemote().sendText(message);
-            System.out.println("Client: Sent message: " + message);
         } catch (IOException e) {
             System.err.println("Send error: " + e.getMessage());
             e.printStackTrace();
