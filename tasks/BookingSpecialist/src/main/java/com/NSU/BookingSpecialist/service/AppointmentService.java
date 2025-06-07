@@ -30,7 +30,7 @@ public class AppointmentService {
         }
 
         if (appointmentRepository.existsBySpecialistIdAndAppointmentTime(specialistId, time)) {
-            throw new EntityNotFoundException("Appointment with id " + specialistId + " is busy at " + time);
+            throw new IllegalStateException("Appointment with id " + specialistId + " is busy at " + time);
         }
 
         Appointment appointment = new Appointment();
