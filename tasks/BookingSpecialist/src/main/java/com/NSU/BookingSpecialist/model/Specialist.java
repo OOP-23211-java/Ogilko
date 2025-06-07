@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Specialist {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String name;
