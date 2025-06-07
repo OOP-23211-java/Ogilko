@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/appointment")
+@RequestMapping("/api/appointments")
 @RequiredArgsConstructor
 public class AppointmentController {
     private final AppointmentService appointmentService;
@@ -32,7 +32,7 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public List<Appointment> bookAppointment(@Valid @RequestBody CreateRequest request, Principal principal) {
+    public List<Appointment> getAppointments(Principal principal) {
         User me = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException());
         return appointmentService.getUserAppointments(me.getId());
     }

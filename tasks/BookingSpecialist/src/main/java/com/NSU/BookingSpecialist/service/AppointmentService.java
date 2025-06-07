@@ -56,7 +56,6 @@ public class AppointmentService {
         }
 
         appointment.setStatus("CANCELLED");
-        appointmentRepository.save(appointment);
     }
 
     public List<Appointment> getUserAppointments(Integer userId) {
