@@ -24,7 +24,7 @@ public class AppointmentController {
     private final UserRepository userRepository;
 
     @Data
-    public static class CreateRequest {
+    public static class BookingRequest {
         @NotNull
         Integer specialistId;
         @NotNull
@@ -38,7 +38,7 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Appointment> book(@Valid @RequestBody CreateRequest request, Principal principal) {
+    public ResponseEntity<Appointment> book(@Valid @RequestBody AppointmentController.BookingRequest request, Principal principal) {
         User me = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException());
         Appointment created = appointmentService.bookAppointment(request.getSpecialistId(), me.getId(), request.getAppointmentTime());
         return ResponseEntity.status(HttpStatus.CREATED).body(created);

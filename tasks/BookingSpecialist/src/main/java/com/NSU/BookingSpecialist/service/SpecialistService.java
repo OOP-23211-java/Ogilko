@@ -5,6 +5,7 @@ import com.NSU.BookingSpecialist.model.Specialist;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,5 +21,14 @@ public class SpecialistService {
     public Specialist getById(int id) {
         return specialistRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(""));
     }
+
+    @Transactional
+    public Specialist create(String name, String profession) {
+        Specialist specialist = new Specialist();
+        specialist.setName(name);
+        specialist.setProfession(profession);
+        return specialistRepository.save(specialist);
+    }
+
 
 }

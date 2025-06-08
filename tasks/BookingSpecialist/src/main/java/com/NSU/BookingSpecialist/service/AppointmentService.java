@@ -64,4 +64,13 @@ public class AppointmentService {
         }
         return appointmentRepository.findByUserId(userId);
     }
+
+    @Transactional(readOnly = true)
+    public List<Appointment> getAppointmentsBySpecialist(Integer specialistId) {
+        if (!specialistRepository.existsById(specialistId)) {
+            throw new EntityNotFoundException("Specialist with id " + specialistId + " not found");
+        }
+
+        return appointmentRepository.findBySpecialistId(specialistId);
+    }
 }

@@ -1,20 +1,27 @@
 package com.NSU.BookingSpecialist.controller;
 
+import com.NSU.BookingSpecialist.repository.UserRepository;
 import com.NSU.BookingSpecialist.service.AuthService;
 import com.NSU.BookingSpecialist.model.User;
+import com.NSU.BookingSpecialist.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
     public static class SignupRequest {
         @NotBlank @Email
@@ -39,5 +46,12 @@ public class AuthController {
         User user = authService.register(signupRequest.email, signupRequest.password);
         SignupResponse resp = new SignupResponse(user.getId(), user.getEmail());
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<SignupResponse> login(Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).
+                orElseThrow(() -> new UsernameNotFoundException(principal.getName() + "'s user was not found"));
+        return ResponseEntity.ok(new SignupResponse(user.getId(), user.getEmail()));
     }
 }
