@@ -3,7 +3,7 @@ package com.NSU.BookingSpecialist.controller;
 import com.NSU.BookingSpecialist.repository.UserRepository;
 import com.NSU.BookingSpecialist.service.AuthService;
 import com.NSU.BookingSpecialist.model.User;
-import com.NSU.BookingSpecialist.service.UserService;
+import com.NSU.BookingSpecialist.service.UserDetailsServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -20,7 +20,7 @@ import java.security.Principal;
 @AllArgsConstructor
 public class AuthController {
     private final AuthService authService;
-    private final UserService userService;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final UserRepository userRepository;
 
     public static class SignupRequest {

@@ -37,7 +37,6 @@ public class AppointmentService {
         appointment.setSpecialistId(specialistId);
         appointment.setUserId(userId);
         appointment.setAppointmentTime(time);
-        appointment.setStatus("ACTIVE");
 
         return appointmentRepository.save(appointment);
     }
@@ -51,11 +50,7 @@ public class AppointmentService {
             throw new SecurityException("You can't cancel someone else's account.");
         }
 
-        if (appointment.getStatus().equals("CANCELLED")) {
-            throw new IllegalStateException("The recording has already been canceled.");
-        }
-
-        appointment.setStatus("CANCELLED");
+        appointmentRepository.delete(appointment);
     }
 
     public List<Appointment> getUserAppointments(Integer userId) {

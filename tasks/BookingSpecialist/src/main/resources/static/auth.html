@@ -17,10 +17,15 @@
         <input type="password" id="password" placeholder="Пароль" required>
         <button type="submit">Войти</button>
     </form>
+    <div id="login-error" style="color: red; display: none;">
+        Неверный email или пароль.
+    </div>
     <p id="switch-form">
         Нет аккаунта? <a href="#" onclick="toggleForm()">Зарегистрироваться</a>
     </p>
+
 </div>
+
 
 <script>
     let isLogin = true;
@@ -46,7 +51,7 @@
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({email, password})
             });
-            if (resp.ok) {
+                if (resp.ok) {
                 alert('Регистрация успешна! Войдите.');
                 toggleForm();
             } else {
@@ -63,14 +68,16 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: formData
             });
-            if (resp.ok) {
-                // переходим на главную
-                window.location.href = '/main.html';
+            if (resp.redirected) {
+                window.location.href = resp.url;
             } else {
-                alert('Ошибка входа: ' + resp.status);
+                alert('Ошибка входа. Проверьте email и пароль.');
             }
         }
     });
+    if (window.location.search.includes('error')) {
+        document.getElementById('login-error').style.display = 'block';
+    }
 </script>
 </body>
 </html>

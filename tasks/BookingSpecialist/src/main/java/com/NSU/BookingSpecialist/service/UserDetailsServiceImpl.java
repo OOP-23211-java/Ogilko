@@ -3,19 +3,21 @@ package com.NSU.BookingSpecialist.service;
 import com.NSU.BookingSpecialist.model.User;
 import com.NSU.BookingSpecialist.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
+
+    public UserDetailsServiceImpl(UserRepository repo) {
+        this.userRepository = repo;
+        System.out.println("UserDetailsServiceImpl инициализирован");
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
