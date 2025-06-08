@@ -20,11 +20,16 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index.html", "/auth.html", "/**.html", "/static/**", "/api/auth/signup").permitAll()
-
+                        .requestMatchers("/", "/auth.html", "/main.html", "/**.html", "/login", "/logout", "/api/auth/signup", "/api/auth/login", "/static/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .formLogin(form -> form
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/main.html", true) // 👈 сюда редирект после входа
+                        .permitAll()
+                )
+                .logout(logout -> logout.logoutUrl("/logout").permitAll());
+
 
         return http.build();
     }
