@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        button {
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #user-email {
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<h1>Добро пожаловать</h1>
+<span id="user-email">Загрузка...</span>
+
+<button onclick="location.href='specialists.html'">Список специалистов</button>
+<button onclick="location.href='appointments.html'">Мои записи</button>
+<button onclick="location.href='add-specialist.html'">Добавить специалиста</button>
+<br>
+<button onclick="logout()">Выйти</button>
+
+<script>
+    async function loadUser() {
+        const resp = await fetch('/api/auth/login');
+        if (resp.ok) {
+            const user = await resp.json();
+            document.getElementById('user-email').innerText = 'Вы вошли как: ' + user.email;
+        } else {
+            alert("Ошибка авторизации, вернитесь на страницу входа");
+            location.href = 'auth.html';
+        }
+    }
+
+    function logout() {
+        fetch('/logout', { method: 'POST' })
+            .then(() => location.href = 'auth.html');
+    }
+
+    loadUser();
+</script>
+</body>
+</html>

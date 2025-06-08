@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Специалисты</title>
+    <style>
+        body { font-family: sans-serif; padding: 40px; max-width: 800px; margin: auto; }
+        .specialist { border: 1px solid #ccc; padding: 15px; margin: 10px 0; border-radius: 6px; }
+        button { margin-top: 10px; }
+        #back { margin-top: 20px; }
+    </style>
+</head>
+<body>
+<h1>Список специалистов</h1>
+<div id="list"></div>
+<button id="back" onclick="location.href='main.html'">Назад</button>
+
+<!-- Модальное окно для записи -->
+<div id="modal" style="display:none; position:fixed; top:20%; left:30%; background:white; border:1px solid #999; padding:20px; box-shadow: 0 0 10px gray;">
+    <h3>Выберите время для записи</h3>
+    <input type="datetime-local" id="appointmentTime">
+    <br><br>
+    <button onclick="confirmBooking()">Записаться</button>
+    <button onclick="closeModal()">Отмена</button>
+</div>
+
+<script>
+    let selectedSpecialistId = null;
+
+    async function loadSpecialists() {
+        const resp = await fetch('/api/specialists');
+        if (!resp.ok) return alert("Ошибка при загрузке специалистов");
+
+        const list = await resp.json();
+        const container = document.getElementById('list');
+        container.innerHTML = '';
+
+        list.forEach(s => {
+            const el = document.createElement('div');
+            el.className = 'specialist';
+            el.innerHTML = `
+          <b>${s.name}</b> — ${s.profession}<br>
+          <button onclick="openModal(${s.id})">Записаться</button>
+        `;
+            container.appendChild(el);
+        });
+    }
+
+    function openModal(specialistId) {
+        selectedSpecialistId = specialistId;
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    async function confirmBooking() {
+        const time = document.getElementById('appointmentTime').value;
+        if (!time) return alert("Выберите дату и время");
+
+        const resp = await fetch('/api/appointments', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                specialistId: selectedSpecialistId,
+                appointmentTime: time
+            })
+        });
+
+        if (resp.ok) {
+            alert("Запись создана!");
+            closeModal();
+        } else {
+            alert("Ошибка при записи: " + resp.status);
+        }
+    }
+
+    loadSpecialists();
+</script>
+</body>
+</html>
