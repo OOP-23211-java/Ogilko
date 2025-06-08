@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить специалиста</title>
+    <style>
+        body { font-family: sans-serif; padding: 40px; max-width: 600px; margin: auto; }
+        input, button { display: block; width: 100%; padding: 10px; margin: 10px 0; font-size: 16px; }
+        #back { margin-top: 20px; }
+    </style>
+</head>
+<body>
+<h1>Добавление специалиста</h1>
+<form id="form">
+    <input type="text" id="name" placeholder="Имя" required>
+    <input type="text" id="profession" placeholder="Профессия" required>
+    <button type="submit">Добавить</button>
+</form>
+
+<button id="back" onclick="location.href='main.html'">Назад</button>
+
+<script>
+    document.getElementById('form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const profession = document.getElementById('profession').value;
+
+        const resp = await fetch('/api/specialists', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ name, profession })
+        });
+
+        if (resp.ok) {
+            alert('Специалист добавлен!');
+            document.getElementById('form').reset();
+        } else {
+            alert('Ошибка добавления: ' + resp.status);
+        }
+    });
+</script>
+</body>
+</html>

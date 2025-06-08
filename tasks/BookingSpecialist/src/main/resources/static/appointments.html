@@ -18,8 +18,6 @@
 <script>
     async function loadAppointments() {
         const resp = await fetch('/api/appointments');
-        if (!resp.ok) return alert("Ошибка при загрузке записей");
-
         const appointments = await resp.json();
         const container = document.getElementById('list');
         container.innerHTML = '';
@@ -29,21 +27,24 @@
             return;
         }
 
-        appointments.forEach(a => {
+        for (const a of appointments) {
+            const specResp = await fetch(`/api/specialists/${a.specialistId}`);
+            const specialist = await specResp.json();
+
             const el = document.createElement('div');
             el.className = 'appointment';
 
             const dateTime = new Date(a.appointmentTime).toLocaleString();
 
             el.innerHTML = `
-          <b>Специалист:</b> ${a.specialist.name}<br>
-          <b>Профессия:</b> ${a.specialist.profession}<br>
-          <b>Время:</b> ${dateTime}<br>
-          <button onclick="cancelAppointment(${a.id})">Отменить запись</button>
-        `;
+      <b>Специалист:</b> ${specialist.name}<br>
+      <b>Профессия:</b> ${specialist.profession}<br>
+      <b>Время:</b> ${dateTime}<br>
+      <button onclick="cancelAppointment(${a.id})">Отменить запись</button>
+    `;
 
             container.appendChild(el);
-        });
+        }
     }
 
     async function cancelAppointment(id) {
